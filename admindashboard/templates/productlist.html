@@ -1,0 +1,76 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class="box">
+            <div class="box-header">
+              <div class="col-xs-8">
+                <h3 class="box-title">Product List</h3>              
+              </div>
+              <div class="col-xs-4" style="text-align: right;">
+                  <a href="/admin/product/add">Create a new product</a>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Product Details</th>
+                  <th>Product Price</th>
+                  <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in product_list %}
+                    <tr>
+                      <td>{{product.name}}</td>
+                      <td>{{product.details}}</td>
+                      <td>{{product.price}}</td>
+                      <td><a href="/admin/product/edit/{{product.id}}">Edit</a></td>
+                    </tr>                
+                {%endfor%}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock adminjs %}

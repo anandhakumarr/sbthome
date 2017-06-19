@@ -1,0 +1,92 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class="box">
+            <div class="box-header">
+              <div class="col-xs-8">
+                <h3 class="box-title">Enquiry List</h3>              
+              </div>
+              <div class="col-xs-4" style="text-align: right;">
+                  <a href="/admin/enquiry/add">Create a new enquiry</a>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Address</th>
+                  <th>Other Details</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in base_dict %}
+                    <tr>
+                      <td>{{row.id}}</td>
+                      <td>{{row.customer_name}}</td>
+                      <td>{{row.customer_city}}</td>
+                      <td>{{row.customer_phone}}</td>
+                      <td>{{row.customer_email}}</td>
+                      <td>{{row.customer_address}}</td>
+                      <td>{{row.customer_otherdetails}}</td>
+                      <td>{{row.enquiry_date}}</td>
+                      {% if row.enquiry_status == 0 %}
+                        <td>Closed</td>
+                      {% else %}
+                        <td>Open</td>
+                      {% endif %}
+                      <td><a href="/admin/enquiry/edit/{{row.id}}">Edit</a></td>
+                    </tr>                
+                {%endfor%}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock adminjs %}

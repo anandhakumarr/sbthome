@@ -1,0 +1,195 @@
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/datepicker3.css' %}">
+  <style type="text/css">
+    #subeventlist, #ticketlist, #tkcost{
+      display: none;
+    }  
+  </style> 
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+          <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Add New Sales</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" action="" id="addsales">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Choose Customer</label>
+                    <select class="form-control input-sm" id="id_customer" name="customer">   
+                          <option value="noneselected">Select a customer</option>
+                          {% for customer in customer_list %}                       
+                          <option value="{{customer.id}}">id{{customer.id}}-{{customer.name}}</option>
+                          {%endfor%}
+                    </select>                                    
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">TDS Level</label>
+                  <input class="form-control" id="tdslevel"  name="tds" placeholder="Enter TDS Level" type="number" required>
+                </div>                
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Select Product</label>
+                    <select class="form-control input-sm" id="id_product" name="product">   
+                          <option value="noneselected">Select a Product</option>
+                          {% for product in product_list %}                       
+                          <option value="{{product.id}}" productprice="{{product.price}}">{{product.id}}-{{product.name}}</option>
+                          {%endfor%}
+                    </select>
+                 </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product Amount</label>
+                  <input class="form-control" id="tamount"  name="tamount" type="text" readonly value=0 required>
+                </div>                                                     
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Discount Amount</label>
+                  <input class="form-control" id="damount"  name="damount" type="number" value=0 required>
+                </div>                                                     
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Paid Amount</label>
+                  <input class="form-control" id="pamount"  name="pamount" type="number" value=0 required>
+                </div>                                                     
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Balance Amount</label>
+                  <input class="form-control" id="bamount"  name="bamount" type="text" value=0 readonly required>
+                </div>                                                     
+
+                <div class="form-group">
+                  <label>Installation Date</label>
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="datepicker"   name="installdate"   type="text">
+                  </div>
+                <!-- /.input group -->
+                </div>                
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>        
+
+        </div>    
+        <div class="col-md-2">
+        </div>           
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+ 
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+
+  $(document).ready(function() {
+    //set initial state.
+ 
+    // $('#islive').mousedown(function() {      
+    //     if($(this).is(":checked")) {
+    //       $('#islive1').val("0");            
+    //     }else{
+    //       $('#islive1').val("1");          
+    //     }
+    // });
+
+     $("#id_product").change(function () {          
+          var pid = $("#id_product").find("option:selected").attr('productprice');
+          if(pid!="noneselected"){
+              $("#tamount").val(pid);
+              $("#pamount").val(0);
+              $("#damount").val(0);
+              $("#bamount").val(pid);
+          }
+     });
+
+     $("#pamount").change(function () {
+          var tamount = $("#tamount").val();
+          var paidamt = $("#pamount").val();
+          var damount =  $("#damount").val();
+         
+          var comparison = tamount-damount-paidamt;          
+          if(comparison<0){
+              alert("Paid amount should not be greater than Total amount");
+              $("#pamount").val(0);                            
+          }else{
+            var bamount = tamount-paidamt-damount;
+            $("#bamount").val(bamount);
+          }
+
+     });
+
+     $("#damount").change(function () {
+          var tamount = $("#tamount").val();
+          var paidamt = $("#pamount").val();
+          var damount =  $("#damount").val();
+
+          var comparison = tamount-damount-paidamt;          
+          if(comparison<0){
+              alert("Discount amount should not be greater than Total amount");
+              $("#damount").val(0);
+          }else{
+            var bamount = tamount-paidamt-damount;
+            $("#bamount").val(bamount);
+          }
+     });          
+
+     // $("#subevent").click(function () {
+     //    $("#subeventlist").show("slow");
+     //    $("#subevent").hide("slow");
+     // });
+     // $("#ticket").click(function () {
+     //    $("#ticketlist").show("slow");
+     //    $("#ticket").hide("slow");
+     // });     
+});
+
+
+</script>
+
+
+
+<script>
+  $(function () {
+    
+    $('#datepicker').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+       startDate: '-3d'
+    });    
+  });
+</script>
+
+{% endblock adminjs %}

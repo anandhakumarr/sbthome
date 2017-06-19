@@ -1,0 +1,73 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+          <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Add New Product</h3>
+            </div>
+            <center><div id="message-register"></div></center>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" action="" id="addproduct">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product Name</label>
+                  <input class="form-control" id="exampleInputEmail1" name="pname" placeholder="Enter Product Name" type="text" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Product Details</label>
+                  <input class="form-control" id="exampleInputEmail1" name="pdetail" placeholder="Enter Product Details" type="text" >
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Price</label>
+                  <input class="form-control" id="exampleInputPassword1"  name="pprice" placeholder="Enter Product Price" type="number" required>
+                </div>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>            
+          </div>        
+
+        </div>    
+        <div class="col-md-2">
+        </div>           
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock adminjs %}

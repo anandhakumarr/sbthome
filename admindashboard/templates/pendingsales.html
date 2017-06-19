@@ -1,0 +1,87 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class="box">
+            <div class="box-header">
+              <div class="col-xs-8">
+                <h3 class="box-title">Pending Sales</h3>              
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Payment Id</th>
+                  <th>Customer Name</th>
+                  <th>Product Name</th>
+                  <th>Installation Date</th>
+                  <th>Product Price</th>
+                  <th>Total Amount</th>
+                  <th>Discount Amount</th>
+                  <th>Paid Amount</th>
+                  <th>Balance Amount</th>
+                  <th>Payment Date</th>
+                  <!-- <th>Edit</th> -->
+                </tr>
+                </thead>
+                <tbody>
+                {% for pending in pending_sales %}                    
+                    <tr>
+                      <td>{{pending.id}}</td>
+                      <td><a href="/admin/customerdetails/{{pending.customer_id}}">{{pending.customername}}</a></td>
+                      <td>{{pending.productname}}</td>
+                      <td>{{pending.Installationdate}}</td>
+                      <td>{{pending.productprice}}</td>
+                      <td>{{pending.total_amount}}</td>
+                      <td>{{pending.discount_amount}}</td>
+                      <td>{{pending.paid_amount}}</td>
+                      <td>{{pending.balance_amount}}</td>
+                      <td>{{pending.payment_date}}</td>
+                      <!-- <td><a href="#">Edit</a></td> -->
+                    </tr>                
+                {%endfor%}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock adminjs %}

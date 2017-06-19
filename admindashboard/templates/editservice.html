@@ -1,0 +1,242 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/datepicker3.css' %}">
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+          <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Edit Service</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" id="editservice" enctype="multipart/form-data">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Select a Customer</label>
+
+                    <select class="form-control input-sm" id="id_user" onchange="oncustomerchange(this.value)" name="customer">  
+                          {% for cus in customer_list %}                       
+                            {% if customer_id == cus.id %}
+                              <option  selected="selected" value="{{cus.id}}">{{cus.name}} - {{cus.city}} - {{cus.phone}}</option>
+                            {% else %}
+                              <option value="{{cus.id}}">{{cus.name}} - {{cus.city}} - {{cus.phone}}</option>
+                            {% endif %}
+                          {%endfor%}
+                    </select>
+                 </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Select Product</label>                    
+                    <select class="form-control input-sm" name="product" id="id_clg">   
+                      <option selected="selected" disabled>Select what he bought</option>
+                    </select>                                              
+                 </div>                 
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Service Details</label>
+                  <input class="form-control" value="{{servicedetails}}"   name="sdetails" placeholder="Enter Service Details" type="text" required>
+                </div>
+ 
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Attender Name</label>
+                  <input class="form-control"  value="{{attender}}" name="attender" placeholder="Enter Attender Name" type="text" required>
+                </div>
+ 
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Service Amount</label>
+                  <input class="form-control" id="samount"  name="samount" type="text" value="{{total_amount}}" required>
+                </div>                                                     
+                
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Discount Amount</label>
+                  <input class="form-control" id="sdamount"  name="sdamount" type="number" value="{{discount_amount}}" required>
+                </div>                                                     
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Paid Amount</label>
+                  <input class="form-control" id="spamount"  name="spamount" type="number" value="{{paid_amount}}" required>
+                </div>                                                     
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Balance Amount</label>
+                  <input class="form-control" id="sbamount"  name="sbamount" type="text" value="{{balance_amount}}" readonly required>
+                </div>                                                     
+
+                <input type="hidden" value="{{serviceid}}" name="serviceid">
+                <input type="hidden" value="{{payid}}" name="payid">
+
+                <div class="form-group">
+                  <label>Service Date</label>
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="datepicker" value="{{service_date}}"  name="servicedate"   type="text">
+                  </div>
+                <!-- /.input group -->
+                </div>   
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Service Status</label>                    
+                    <select class="form-control input-sm" name="sstatus" id="sstatus">   
+
+                      {% if service_status == 0 %}
+                          <option selected="selected" value="0" >Closed</option>
+                          <option value="1" >Open</option>
+                      {% else %}
+                        <option selected="selected" value="1" >Open</option>
+                        <option value="0" >Closed</option>
+                      {% endif %}
+                      
+
+                    </select>                                              
+                 </div>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>        
+
+        </div>    
+        <div class="col-md-2">
+        </div>           
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+ 
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+
+  $(document).ready(function() {
+    //set initial state.
+    var customer_sales = {{customer_sales|safe}};
+      
+    if("option_"+{{customer_id}} in customer_sales) {
+        $('#id_clg').empty().append(customer_sales["option_"+{{customer_id}}]);            
+    } else {
+        $('#id_clg').empty();        
+    }
+
+
+     // $("#samount").change(function () {          
+     //      var samount = $("#samount").val();                            
+     //      if(samount>0){
+     //          $(".subservice").show("slow");
+     //          $("#sdamount").val(0);                            
+     //          $("#spamount").val(0);                            
+     //          $("#sbamount").val(0);                            
+     //      }else{
+     //          $(".subservice").hide("slow");
+     //          $("#sdamount").val(0);                            
+     //          $("#spamount").val(0);                            
+     //          $("#sbamount").val(0);                            
+     //      }
+     // });
+
+     $("#samount").change(function () {
+          var tamount = $("#samount").val();
+          var paidamt = $("#spamount").val();
+          var damount =  $("#sdamount").val();                          
+          var bamount = tamount-paidamt-damount;
+          $("#sbamount").val(bamount);
+     });
+
+
+     $("#spamount").change(function () {
+          var tamount = $("#samount").val();
+          var paidamt = $("#spamount").val();
+          var damount =  $("#sdamount").val();
+         
+          var comparison = tamount-damount-paidamt;          
+          if(comparison<0){
+              alert("Paid amount should not be greater than Total amount");
+              $("#pamount").val(0);                            
+          }else{
+            var bamount = tamount-paidamt-damount;
+            $("#sbamount").val(bamount);
+          }
+
+     });
+
+     $("#sdamount").change(function () {
+          var tamount = $("#samount").val();
+          var paidamt = $("#spamount").val();
+          var damount =  $("#sdamount").val();
+
+          var comparison = tamount-damount-paidamt;          
+          if(comparison<0){
+              alert("Discount amount should not be greater than Total amount");
+              $("#damount").val(0);
+          }else{
+            var bamount = tamount-paidamt-damount;
+            $("#sbamount").val(bamount);
+          }
+     });          
+
+
+});
+
+
+</script>
+
+
+
+<script>
+  $(function () {
+    
+    $('#datepicker').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+       startDate: '-3d'
+    });
+    $('#datepicker1').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+       startDate: '-3d'
+    });
+  });
+
+var customer_sales = {{customer_sales|safe}};
+
+  function oncustomerchange(keyelem)
+    {
+        if("option_"+keyelem in customer_sales) {
+            $('#id_clg').empty().append(customer_sales["option_"+keyelem]);            
+        } else {
+            $('#id_clg').empty();        
+        }
+    }
+</script>
+
+{% endblock adminjs %}

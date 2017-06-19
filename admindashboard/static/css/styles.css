@@ -1,0 +1,88 @@
+body {
+  background: #f8f8fa;
+}
+body nav {
+  background: white;
+}
+
+/* have to change full and no border and change image dynamically*/
+.jumbotron {
+	background: url('../images/homepage_hero_banner_1.jpg');
+	text-align: center;
+	color: white;
+  padding-top: 88px;
+  padding-bottom: 88px;
+}
+
+.event-jumbotron {
+  color: white;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+/* need to change below because this is not good*/
+input {
+	width: 100% !important;
+}
+
+select {
+	width: 100% !important;
+}
+
+.no-padding {
+	padding-right: 0px; 
+    padding-left: 0px; 
+}
+
+/* card experiment */
+.list-group li {
+    list-style: none;
+}
+/*.panel-info, .panel-rating, .panel-more1 {
+    float: left;
+    margin: 0 10px;
+}
+*/
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #282C35;
+}
+
+/* second navbar */
+.second-navbar {
+  margin-top: 12px;
+  background: #282c35;
+}
+
+.second-button {
+  margin-left: 70px;
+}
+.second-nav-button {
+  background: #282c35;
+  color: white;
+  border: 1px solid #000000;
+}
+.second-nav-button:hover {
+  color: white;
+}
+
+.event-banner {
+  max-width:100%;
+max-height:100%;
+width: 100%
+}
+
+/* share body */
+.share-body {
+  height: 55px;
+  background: white;
+  margin-left: 24px;
+}
+
+.sub-events {
+  display: none;
+  background: antiquewhite;
+}

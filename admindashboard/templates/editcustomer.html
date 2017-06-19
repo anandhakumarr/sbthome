@@ -1,0 +1,82 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+          <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Edit Customer</h3>
+            </div>
+            <center><div id="message-register"></div></center>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" action="" id="editcustomer">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Customer Name</label>
+                  <input class="form-control" id="customer" name="name" placeholder="Enter Customer Name" type="text" required value="{{name}}">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Email</label>
+                  <input class="form-control" id="email"  name="email" placeholder="Enter Contact Email" type="email" value="{{email}}">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Address</label>
+                  <input class="form-control" id="address"  name="address" placeholder="Enter address" type="text" required value="{{address}}">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">City</label>
+                  <input class="form-control" id="city"  name="city" placeholder="Enter City" type="text" required value="{{city}}">
+                </div>                
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Phone Number</label>
+                  <input class="form-control" id="number"  name="phone" placeholder="Enter Mobile Number" type="number" required value="{{phone}}">
+                </div>                
+                <input type="hidden"  id="cid" name="cid" value="{{cid}}"> 
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>            
+          </div>        
+
+        </div>    
+        <div class="col-md-2">
+        </div>           
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock adminjs %}

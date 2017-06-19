@@ -1,0 +1,94 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+  <style type="text/css">
+    #subeventlist, #ticketlist, #tkcost{
+      display: none;
+    }  
+  </style> 
+
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+          <div class="col-md-8">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Edit Enquiry</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="POST" action="" id="editenquiry">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Choose Customer</label>
+                    <select class="form-control input-sm" id="id_customer" name="customer">                             
+                          {% for customer in customer_list %}                       
+                            {% if customer_id == customer.id %}
+                              <option selected="selected" value="{{customer.id}}">id{{customer.id}}-{{customer.name}}</option>
+                            {% else %}
+                              <option value="{{customer.id}}">id{{customer.id}}-{{customer.name}}</option>
+                            {% endif %}
+                          {%endfor%}
+                    </select>                                    
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Enquiry Details</label>
+                  <input class="form-control" id="tdslevel"  name="otherdetails" placeholder="Enter Enquiry Details" type="textbox" required value="{{customer_otherdetails}}">
+                </div>                
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Enquiry Status</label>                    
+                    <select class="form-control input-sm" name="estatus" id="estatus">   
+                      {% if enquiry_status == 1 %}
+                      <option selected="selected" value="1" >Open</option>
+                      <option value="0" >Closed</option>
+                      {% else %}
+                      <option value="0" selected="selected">Closed</option>
+                      <option value="1" >Open</option>
+                      {% endif %}
+                    </select>                                              
+                 </div>                
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+                <input type="hidden" name="eid" value="{{eid}}">
+            </form>
+          </div>        
+
+        </div>    
+        <div class="col-md-2">
+        </div>           
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+ 
+<script>
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+
+
+</script>
+{% endblock adminjs %}

@@ -1,0 +1,95 @@
+{% extends 'admin_base.html' %}
+{% block content1 %}
+        <section class="content">
+         <br><br>
+          <div class="row">
+          
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total Customers</span>
+              <span class="info-box-number">{{ total_customer }}</span>
+            </div>
+          </div>
+        </div>
+ 
+ 
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-close"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total Closed Services</span>
+              <span class="info-box-number">{{ total_service }}</span>
+            </div>            
+          </div>          
+        </div>  
+        
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-calendar"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total Open Services</span>
+              <span class="info-box-number">{{ total_open_service }}</span>
+            </div>            
+          </div>          
+        </div>  
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-calendar"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Number Of Products</span>
+              <span class="info-box-number">{{ product_count }}</span>
+            </div>            
+          </div>          
+        </div>  
+
+      </div>
+      
+          <div class="row">
+          
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-rupee"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Last Month Sales(Rs)</span>
+              <span class="info-box-number">{{ sales }}</span>
+            </div>
+          </div>
+        </div>
+ 
+ 
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-list"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Last Month Orders</span>
+              <span class="info-box-number">{{ orders }}</span>
+            </div>            
+          </div>          
+        </div>  
+        
+        <!-- <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-calendar"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total Open Services</span>
+              <span class="info-box-number">{{ total_open_service }}</span>
+            </div>            
+          </div>          
+        </div>  
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-calendar"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Number Of Products</span>
+              <span class="info-box-number">{{ product_count }}</span>
+            </div>            
+          </div>          
+        </div>   -->
+
+      </div>      
+        </section>
+{% endblock content1 %}

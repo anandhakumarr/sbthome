@@ -1,0 +1,281 @@
+
+{% extends 'admin_base.html' %}
+{% load staticfiles %}
+{% block admincss %}
+
+  <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.css' %}">
+  <style type="text/css">
+  </style>
+{% endblock admincss %}
+
+{% block content1 %}
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+          <div class="box">
+            <div class="box-header">
+              <div class="col-xs-8">
+                <h3 class="box-title">Customer Product Details</h3>              
+              </div>
+            </div>
+            <!-- /.box-header -->
+          <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="box-body col-xs-10">
+              <h5> Customer Details </h5>
+              <table id="example1" class="table table-bordered table-striped">
+              <tbody>
+                {% for cus in base_dict %}                    
+                      <tr><th>Id</th><td>{{cus.id}}</td></tr>
+                      <tr><th>Name</th><td>{{cus.customer_name}}</td></tr>
+                      <tr><th>email</th><td>{{cus.customer_email}}</td></tr>
+                      <tr><th>Address</th><td>{{cus.customer_address}}</td></tr>
+                      <tr><th>Phone</th><td>{{cus.customer_phone}}</td></tr>
+                      <tr><th>City</th><td>{{cus.customer_city}}</td></tr>                                    
+                {%endfor%}
+                </tbody>
+              </table>
+            </div>            
+            <div class="col-xs-1"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="box-body  col-xs-10">
+                
+                {% for row in fulldata %}
+                 <div class="mainproduct">
+                    <br><br>
+                    <h5> Product Details </h5>
+                    <table id="example2" class="table table-bordered table-striped">
+                    <tbody>
+                            <tr><th>Sales Id</th><th>Product Id</th><th>Product Name</th>
+                                <th>Product Price</th><th>Customer Id</th><th>TDS</th><th>Installation Date</th>
+                            </tr>
+                            <tr>
+                                <td>{{row.sales_id}}</td><td>{{row.productid}}</td><td>{{row.productname}}</td>
+                                <td>{{row.productprice}}</td><td>{{row.customerid}}</td><td>{{row.tds}}</td>
+                                <td>{{row.installation_date}}</td>
+                            </tr>
+                    </tbody>
+                    </table>
+
+                    <h5> Product Payment History </h5>
+
+                    <table id="example1" class="table table-bordered table-striped">
+                    <tbody>
+                            <tr><th>Total Amount</th><th>Discount Amount</th><th>Paid Amount</th><th>Balance Amount</th>
+                                <th>Payment Date</th>
+                            </tr>                      
+                      {% for krow in row.payhistory_product %}                                             
+                            <tr><td>{{krow.total_amount}}</td><td>{{krow.discount_amount}} </td><td>{{krow.paid_amount}}</td>
+                                <td>{{krow.balance_amount}} </td><td> {{krow.payment_date}} </td>
+                            </tr>
+                      {%endfor%}
+                      </tbody>
+                    </table>
+                    
+
+                    {% if row.sales_balance_amount > 0 %}
+                        <h5> Enter balance amount to pay </h5>
+
+                        <form role="form" method="POST"  class="addsalespayment{{row.sales_id}}">
+                            <table id="example1" class="table table-bordered table-striped">
+                            <tbody>
+                                    <tr><th>Product Amount</th><th>Discount Amount</th><th>Paid Amount</th>
+                                      <th> Enter Amount</th><th>Total Balance</th>    <th> Submit</th>  
+                                    </tr>                      
+                                    <tr><td><input class="form-control" id="tamount"  name="tamount" type="text" readonly value="{{row.total_amount}}" required></td>
+                                    <td><input class="form-control" id="damount"  name="damount" type="number" value="{{row.discount_amount}}" required></td>
+                                    <td><input class="form-control" id="pamount1"  name="pamount1" type="number" value="{{row.paid_amount}}" required></td>
+                                    <td><input class="form-control" id="pamount"  name="pamount" type="number" value=0 required></td>
+                                    <td><input class="form-control" id="bamount"  name="bamount" type="text" value="{{row.sales_balance_amount}}" readonly required>
+                                      <input class="form-control" id="bamount1"  name="bamount1" type="hidden"
+                                                 value=0 required>
+                                    </td>
+                                    <td><button type="submit" class="btn btn-primary">Submit</button></td>
+                                    </tr>
+                              </tbody>
+                            </table>                          
+                            <div class="box-footer">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>                       
+                    {% endif %}                  
+                    <br>                  
+                        <h5> Product Service History </h5>
+
+                        {% for srow in row.servicehistory %}
+                              <table id="example1" class="table table-bordered table-striped">
+                              <tbody>
+
+                                      
+                                      <tr><th>Service Id</th><th>Attender</th><th>Service Details</th><th>Service Date</th>
+                                          <th>Service Status</th>                                
+                                      </tr>                      
+
+                                      <tr><td>{{srow.serviceid}}</td><td>{{srow.attender}}</td><td>{{srow.service_details}}</td>
+                                          <td>{{srow.service_date}} </td><td> {{srow.service_status}} </td>
+                                      </tr>
+                                      <br>
+                                </tbody>
+                              </table>      
+                              <h5> Service Payment History </h5>                            
+
+                              <table id="example1" class="table table-bordered table-striped">
+                              <tbody>
+                                      <tr><th>Total Amount</th><th>Discount Amount</th><th>Paid Amount</th><th>Balance Amount</th>
+                                          <th>Payment Date</th>
+                                      </tr>                      
+                                {% for skrow in srow.servicepayments %}                                           
+                                      <tr><td>{{skrow.total_amount}}</td><td>{{skrow.discount_amount}} </td>
+                                           <td>{{skrow.paid_amount}}</td><td>{{skrow.balance_amount}} </td>
+                                           <td> {{skrow.payment_date}} </td>
+                                      </tr>
+                                {%endfor%}
+                                </tbody>
+                              </table>     
+                                                     
+                              {% if srow.service_balance_amount > 0 %}
+                                  <h5> Enter balance amount to pay </h5>
+
+                                  <form role="form" method="POST"  class="addservicepayment{{srow.service_service_id}}">
+                                      <table id="example2" class="table table-bordered table-striped">
+                                      <tbody>
+                                              <tr><th>Service Amount</th><th>Discount Amount</th><th>Paid Amount</th>
+                                                <th> Enter Amount</th><th>Total Balance</th> <th> Submit</th>
+                                              </tr>                      
+                                              <tr><td><input class="form-control" id="tamount"  name="tamount" type="text" readonly value="{{srow.service_total_amount}}" required></td>
+                                              <td><input class="form-control" id="damount"  name="damount" type="number" value="{{srow.service_discount_amount}}" required></td>
+                                              <td><input class="form-control" id="pamount1"  name="pamount1" type="number" value="{{srow.service_paid_amount}}" required></td>
+                                              <td><input class="form-control" id="pamount"  name="pamount" type="number" value=0 required></td>
+                                              <td><input class="form-control" id="bamount"  name="bamount" type="text" value="{{srow.service_balance_amount}}" readonly required>
+                                                <input class="form-control" id="bamount1"  name="bamount1" type="hidden"
+                                                 value=0 required>
+                                              </td>
+                                              <td><button type="submit" class="btn btn-primary">Submit</button></td>
+                                              </tr>
+                                        </tbody>
+                                      </table>                          
+                                  </form>                                         
+                              {% endif %}
+                      {%endfor%}     
+                      <p>***********************************************************************************************************************************************************************************************</p>
+                {% endfor %}   
+              </div>           
+            </div>
+            <div class="col-xs-1"></div>
+          </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+{% endblock content1 %}
+
+{% block adminjs %}
+
+<script>
+  {% for row in fulldata %}
+
+    $("form.addsalespayment{{row.sales_id}} input[name='pamount']").change(function () {          
+          var pamount = $("form.addsalespayment{{row.sales_id}} input[name='pamount']").val();
+          var bamount =  $("form.addsalespayment{{row.sales_id}} input[name='bamount']").val(); 
+          var comparison = bamount-pamount;          
+          if(comparison<0){
+              $("form.addsalespayment{{row.sales_id}} input[name='pamount']").val(0);              
+              alert("To pay amount should not be greater than balance amount");              
+          }else{
+            $("form.addsalespayment{{row.sales_id}} input[name='bamount1']").val(comparison); 
+          }
+     });
+
+
+
+    $('.addsalespayment{{row.sales_id}}').submit(function(event) {
+
+      var pamount = $("form.addsalespayment{{row.sales_id}} input[name='pamount']").val();
+      var bamount =  $("form.addsalespayment{{row.sales_id}} input[name='bamount']").val(); 
+      var comparison = bamount-pamount;
+
+      if(comparison==bamount){
+        alert("Please Enter to pay amount to submit");
+        return false;
+      }else{          
+          event.preventDefault();
+          $.post('/admin/payment/add/',{
+            'tamount': $("form.addsalespayment{{row.sales_id}} input[name='tamount']").val(),
+            'damount': $("form.addsalespayment{{row.sales_id}} input[name='damount']").val(),
+            'pamount': $("form.addsalespayment{{row.sales_id}} input[name='pamount']").val(),
+            'bamount': $("form.addsalespayment{{row.sales_id}} input[name='bamount1']").val(),
+            'sales_id': {{row.sales_id}},
+            'service_id': {{row.service_id}},
+            'payment_type': {{row.payment_type}},
+            'product_id': {{row.product_id}},
+            'customer_id': {{row.customer_id}}
+          })
+          .done(function(data) {
+            if ( data.status ) {      
+              window.location = "/admin/customerdetails/{{row.customer_id}}/";
+            }
+          });
+    }
+    });
+
+    {% for srow in row.servicehistory %}
+
+        $("form.addservicepayment{{srow.service_service_id}} input[name='pamount']").change(function () {          
+              var pamount = $("form.addservicepayment{{srow.service_service_id}} input[name='pamount']").val();
+              var bamount =  $("form.addservicepayment{{srow.service_service_id}} input[name='bamount']").val(); 
+              var comparison = bamount-pamount;          
+              if(comparison<0){
+                  $("form.addservicepayment{{srow.service_service_id}} input[name='pamount']").val(0);              
+                  alert("To pay amount should not be greater than balance amount");              
+              }else{
+                $("form.addservicepayment{{srow.service_service_id}} input[name='bamount1']").val(comparison); 
+              }
+         });
+
+          $('.addservicepayment{{srow.service_service_id}}').submit(function(event) {
+
+            var pamount = $("form.addservicepayment{{srow.service_service_id}} input[name='pamount']").val();
+            var bamount =  $("form.addservicepayment{{srow.service_service_id}} input[name='bamount']").val(); 
+            var comparison = bamount-pamount;
+
+            if(comparison==bamount){
+              alert("Please Enter to pay amount to submit");
+              return false;
+            }else{          
+                event.preventDefault();
+                $.post('/admin/payment/add/',{
+                  'tamount': $("form.addservicepayment{{srow.service_service_id}} input[name='tamount']").val(),
+                  'damount': $("form.addservicepayment{{srow.service_service_id}} input[name='damount']").val(),
+                  'pamount': $("form.addservicepayment{{srow.service_service_id}} input[name='pamount']").val(),
+                  'bamount': $("form.addservicepayment{{srow.service_service_id}} input[name='bamount1']").val(),
+                  'sales_id': {{srow.service_sales_id}},
+                  'service_id': {{srow.service_service_id}},
+                  'payment_type': {{srow.service_payment_type}},
+                  'product_id': {{srow.service_product_id}},
+                  'customer_id': {{srow.service_customer_id}}
+                })
+                .done(function(data) {
+                  if ( data.status ) {      
+                    window.location = "/admin/customerdetails/{{row.customer_id}}/";
+                  }
+                });
+          }
+          });
+
+
+    {% endfor %}
+
+  {% endfor %}
+
+</script>
+
+{% endblock adminjs %}
